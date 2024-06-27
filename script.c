@@ -2,28 +2,28 @@
 #include <Servo.h>
 
 Servo motor; // Motor
-LiquidCrystal lcd(12, 11, 5, 4, 3, 2); // Portas LCD
+LiquidCrystal lcd(2, 3, 4, 5, 6, 7); // Portas LCD
 
 int /* bool */ motor_used = 0; // Motor foi usado ou nao.
 int seconds = 0, hours = 0, minutes = 0; // Tempos exatos.
-int h_limit = 0, m_limit = 1; // Tempos do timer - h: hora, m: minuto.
-float time, offset = 0, time_mult = 1000; // Variaveis de controle de tempo
+int h_limit = 0, m_limit = 0; // Tempos do timer - h: hora, m: minuto.
+float time, offset = 0, time_mult = 200; // Variaveis de controle de tempo
 
-float add_time = 200; // Tempo em ms para servo voltar a 0 depois de abrir.
-int motor_start_point = 0, motor_end_point = 45; // Ponto inicial e final do servo motor.
+float add_time = 2 * time_mult; // Tempo em ms para servo voltar a 0 depois de abrir.
+int motor_start_point = 0, motor_end_point = 32; // Ponto inicial e final do servo motor.
 float motor_last_time; // Ultima vez que motor foi usado.
 
 int motor_pin = 13; // Pino do motor. (Servo)
-int config_btn = 6; // Pino do botão de configurações.
+int config_btn = 12; // Pino do botão de configurações.
 
-int left_btn = 7; // Pino de botão para selecionar o tempo da esquerda. (<)
-int right_btn = 10; // Pino de botão para selecionar o tempo da direita. (>)
-int plus_btn = 8; // Pino de botão de adicionar tempo. (+)
+int left_btn = 8; // Pino de botão para selecionar o tempo da esquerda. (<)
+int right_btn = 11; // Pino de botão para selecionar o tempo da direita. (>)
+int plus_btn = 10; // Pino de botão de adicionar tempo. (+)
 int minus_btn = 9; // Pino de botão de remover tempo. (-)
 
 int time_selected = 0;  // Tempo selecionado para editar. (0-1 horas, 3-4 minutos)
 int last_button_pressed; // Ultimo botão pressionado.
-float button_offset = 100, button_timeout; // Controle de tempo de espera até botão poder ser pressionado de novo.
+float button_offset = 200, button_timeout; // Controle de tempo de espera até botão poder ser pressionado de novo.
 
 int cur_page = 0, last_page = -1, redraw = 0; // Controle de página no lcd.
 
@@ -58,7 +58,6 @@ void loadCurTime(){
   hours = 0;
   minutes = 0;
   seconds = 0;
-  time_mult = 200; // Cada segundo é contado a 200ms do simulador.
 }
 void loadLimitTime(){
   // h_limit = (carregar arquivo que salva limite de tempo em horas);
